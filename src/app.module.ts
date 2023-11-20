@@ -3,9 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './modules/user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule, MongooseModule.forRoot('mongodb+srv://minhcuong:afUIB1SnE78i6OBq@cluster0.rgwdogs.mongodb.net/')],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.DB_URI),
+    UserModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
